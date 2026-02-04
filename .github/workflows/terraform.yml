@@ -12,6 +12,15 @@ jobs:
   terraform-scan:
     runs-on: ubuntu-latest
     steps:
+      - uses: hashicorp/setup-terraform@v3
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
+        working-directory: terraform/
+
+      - name: Terraform Validate
+        run: terraform init -backend=false && terraform validate
+        working-directory: terraform/
+
       - uses: actions/checkout@v4
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@master
