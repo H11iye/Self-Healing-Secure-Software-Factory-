@@ -9,9 +9,14 @@ permissions:
   contents: read
 
 jobs:
+  
   terraform-scan:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Verify AWS Identity (OIDC)
+        run: aws sts get-caller-identity
+
       - uses: hashicorp/setup-terraform@v3
       - name: Terraform Format
         run: terraform fmt -check -recursive
@@ -28,4 +33,4 @@ jobs:
           directory: terraform/
           framework: terraform
           soft_fail: false # The pipeline will stop if security gaps are found
-          check: CKV_AWS_111,CKV_AWS_135 # Example: specific security checks
+          # check: CKV_AWS_111,CKV_AWS_135 # Example: specific security checks // It's commented so it scans everyting by default
