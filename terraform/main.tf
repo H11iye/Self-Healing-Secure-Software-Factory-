@@ -1,3 +1,3 @@
-module "github_oidc" {
-  source = "./modules/iam_github_oidc"
-}
+# module "github_oidc" {
+#   source = "./modules/iam_github_oidc"
+# }
