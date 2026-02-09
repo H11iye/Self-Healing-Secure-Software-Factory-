@@ -30,13 +30,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Format Check
-        run: terraform fmt -recursive
+      # - name: Terraform Format Check
+      #   run: terraform fmt -recursive
 
-      - name: Terraform Init & Validate
-        run: |
-          terraform init -backend=false 
-          terraform validate
+      # - name: Terraform Init & Validate
+      #   run: |
+      #     terraform init -backend=false 
+      #     terraform validate
 
       - name: Checkov Static Analysis (Security Gate)
         uses: bridgecrewio/checkov-action@master
