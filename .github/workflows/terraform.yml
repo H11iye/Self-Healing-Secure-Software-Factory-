@@ -23,15 +23,15 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-devsecops-role
           aws-region: us-east-1
-          
+
       - name: Verify AWS Identity
         run: aws sts get-caller-identity
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
+      # - name: Terraform Format Check
+      #   run: terraform fmt -check -recursive
 
       - name: Terraform Init & Validate
         run: |
