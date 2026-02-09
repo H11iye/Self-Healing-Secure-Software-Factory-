@@ -1,6 +1,6 @@
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=cf73787"
+  
 
   name = "devsecops-factory-vpc"
   cidr = "10.0.0.0/16"
