@@ -1,4 +1,4 @@
-name: Terraform
+name: Terraform Pipeline
 
 on:
   push:
@@ -9,32 +9,38 @@ permissions:
   contents: read
 
 jobs:
-  
-  terraform-scan:
+  build-and-scan:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-prod-role
-          aws-region: us-east-1
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Verify AWS Identity (OIDC)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-devsecops-role
+          aws-region: us-east-1
+          
+      - name: Verify AWS Identity
         run: aws sts get-caller-identity
 
-      - uses: hashicorp/setup-terraform@v3
-      - name: Terraform Format
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
         run: terraform fmt -check -recursive
-        working-directory: terraform/
 
-      - name: Terraform Validate
-        run: terraform init -backend=false && terraform validate
-        working-directory: terraform/
+      - name: Terraform Init & Validate
+        run: |
+          terraform init -backend=false 
+          terraform validate
 
-      - uses: actions/checkout@v4
-      - name: Checkov GitHub Action
+      - name: Checkov Static Analysis (Security Gate)
         uses: bridgecrewio/checkov-action@master
         with:
           directory: terraform/
           framework: terraform
-          soft_fail: false # The pipeline will stop if security gaps are found
-          # check: CKV_AWS_111,CKV_AWS_135 # Example: specific security checks // It's commented so it scans everyting by default
+          soft_fail: false
