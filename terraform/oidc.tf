@@ -28,7 +28,7 @@ resource "aws_iam_role" "github_actions_role" {
             }  
           StringLike = {
             # STRICT SECURITY: Replace 'YourOrg/YourRepo' with your actual repo
-            "token.actions.githubusercontent.com:sub": "repo:H11iye/Self-Healing-Secure-Software-Factory-:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub": "repo:H11iye/Self-Healing-Secure-Software-Factory-:*"
           }
         }
       }
