@@ -12,6 +12,7 @@ resource "aws_eks_cluster" "main" {
     subnet_ids              = module.vpc.private_subnets
     endpoint_private_access = true
     endpoint_public_access  = true # Set to false later for extreme security
+    public_access_cidrs = ["160.156.104.130/32"]
   }
 
   encryption_config {
