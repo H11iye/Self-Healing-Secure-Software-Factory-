@@ -44,4 +44,4 @@ jobs:
           directory: terraform/
           framework: terraform
           soft_fail: false
-          skip_checks: CKV_TF_1 # Skip check for hardcoded credentials in Terraform, as we are using variables and not hardcoding any secrets. This is a false positive in our context.
+          skip_check: CKV_TF_1 # Skip check for hardcoded credentials in Terraform, as we are using variables and not hardcoding any secrets. This is a false positive in our context.
