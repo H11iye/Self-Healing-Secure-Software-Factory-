@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "main" {
   vpc_config {
     subnet_ids              = module.vpc.private_subnets
     endpoint_private_access = true
-    endpoint_public_access  = true # Set to false later for extreme security
+    endpoint_public_access  = false # Disable public access for security; only allow access from within the VPC
     public_access_cidrs = ["160.156.104.130/32"]
   }
 
